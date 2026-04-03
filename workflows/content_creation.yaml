@@ -1,0 +1,116 @@
+# Content Creation Workflow
+# This workflow orchestrates the handoffs between agents for standard content creation
+
+name: content_creation
+description: End-to-end content creation from brief to publication
+
+tier: 2  # 1=flagship, 2=standard, 3=social snippets
+
+steps:
+  - name: strategist
+    agent: strategist
+    description: Generate content brief from CMO strategy
+    inputs:
+      - strategy
+      - content_pillars
+      - targets
+    outputs:
+      - brief
+    approval_required: true  # Human approves topics before creation
+
+  - name: copywriter
+    agent: copywriter
+    description: Write first draft from brief
+    inputs:
+      - brief
+      - brand_voice
+    outputs:
+      - draft
+      - variants
+    approval_required: false
+
+  - name: seo
+    agent: seo
+    description: Optimize draft for search
+    inputs:
+      - draft
+      - target_keyword
+      - semantic_keywords
+    outputs:
+      - optimized_draft
+      - meta_tags
+      - schema_markup
+    approval_required: false
+
+  - name: brand
+    agent: brand
+    description: Review for brand compliance
+    inputs:
+      - optimized_draft
+      - meta_tags
+    outputs:
+      - approval_status  # approved, needs_revision, flagged
+      - revision_notes
+    approval_required: true  # Brand must approve before publish
+
+  - name: publish
+    agent: orchestrator
+    description: Publish to CMS
+    condition: approval_status == 'approved'
+    inputs:
+      - optimized_draft
+      - meta_tags
+      - schema_markup
+    outputs:
+      - published_url
+    approval_required: false
+
+  - name: social
+    agent: social
+    description: Create social posts from published content
+    trigger: publish.complete
+    inputs:
+      - published_url
+      - content_type
+    outputs:
+      - social_posts
+      - schedule
+    approval_required: false
+
+  - name: email
+    agent: email
+    description: Add to newsletter or create drip email
+    trigger: publish.complete
+    inputs:
+      - published_url
+      - content_type
+      - audience_segment
+    outputs:
+      - email_draft
+      - subject_lines
+    approval_required: true  # Human approves email before send
+
+  - name: analytics
+    agent: analytics
+    description: Track performance
+    trigger: publish.complete + 30_days
+    inputs:
+      - published_url
+      - channels
+    outputs:
+      - performance_report
+      - recommendations
+    approval_required: false
+
+# Error handling
+on_error:
+  - notify: user
+  - rollback: true
+  - log: error_details
+
+# Metrics tracked
+metrics:
+  - time_per_step
+  - revision_cycles
+  - approval_rate
+  - publication_success_rate

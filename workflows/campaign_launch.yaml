@@ -1,0 +1,161 @@
+# Campaign Launch Workflow
+# Tier 1 workflow for flagship campaigns with enhanced review gates
+
+name: campaign_launch
+description: Full-service campaign launch with CMO oversight at every stage
+
+tier: 1  # Flagship - requires CMO approval at multiple points
+
+steps:
+  - name: cmo_strategy
+    agent: cmo
+    description: Define campaign strategy and goals
+    inputs:
+      - business_objective
+      - target_audience
+      - budget
+      - timeline
+    outputs:
+      - campaign_brief
+      - success_metrics
+      - channel_mix
+      - budget_allocation
+    approval_required: true  # CMO approves their own strategy (documented)
+
+  - name: strategist_topics
+    agent: strategist
+    description: Identify campaign topics and angles
+    inputs:
+      - campaign_brief
+      - success_metrics
+    outputs:
+      - topic_list
+      - keyword_research
+      - competitor_analysis
+    approval_required: true  # CMO approves topic strategy
+
+  - name: copywriter_assets
+    agent: copywriter
+    description: Create all campaign copy assets
+    inputs:
+      - topic_list
+      - brand_voice
+      - channel_requirements
+    outputs:
+      - landing_page_copy
+      - email_sequence
+      - social_posts
+      - ad_copy
+    approval_required: false
+
+  - name: seo_optimization
+    agent: seo
+    description: Optimize all assets for search
+    inputs:
+      - landing_page_copy
+      - email_sequence
+      - keyword_research
+    outputs:
+      - optimized_assets
+      - meta_tags
+      - schema_markup
+    approval_required: false
+
+  - name: brand_review
+    agent: brand
+    description: Full brand compliance review
+    inputs:
+      - optimized_assets
+      - campaign_brief
+    outputs:
+      - approval_status
+      - compliance_report
+      - revision_notes
+    approval_required: true  # Brand must approve
+
+  - name: cmo_final_approval
+    agent: cmo
+    description: CMO final go/no-go decision
+    inputs:
+      - optimized_assets
+      - compliance_report
+      - campaign_brief
+    outputs:
+      - launch_decision  # go or no-go
+    approval_required: true  # CMO makes final call
+
+  - name: launch
+    agent: orchestrator
+    description: Execute campaign launch
+    condition: launch_decision == 'go'
+    inputs:
+      - optimized_assets
+      - channel_mix
+      - schedule
+    outputs:
+      - launch_status
+      - published_urls
+    approval_required: false
+
+  - name: social_amplification
+    agent: social
+    description: Multi-platform campaign promotion
+    trigger: launch.complete
+    inputs:
+      - campaign_assets
+      - paid_budget
+    outputs:
+      - social_schedule
+      - ad_campaigns
+    approval_required: true  # Approve ad spend
+
+  - name: email_campaign
+    agent: email
+    description: Send campaign email sequence
+    trigger: launch.complete
+    inputs:
+      - email_sequence
+      - audience_segments
+    outputs:
+      - send_status
+      - initial_metrics
+    approval_required: true  # Approve send
+
+  - name: analytics_tracking
+    agent: analytics
+    description: Real-time campaign monitoring
+    trigger: launch.complete
+    inputs:
+      - success_metrics
+      - channels
+    outputs:
+      - dashboard_url
+      - alerts
+    approval_required: false
+
+  - name: optimization_loop
+    agent: analytics
+    description: Mid-campaign optimization recommendations
+    trigger: launch.complete + 7_days
+    inputs:
+      - performance_data
+      - success_metrics
+    outputs:
+      - optimization_recommendations
+      - budget_reallocation
+    approval_required: true  # CMO approves changes
+
+# Error handling
+on_error:
+  - notify: cmo
+  - notify: user
+  - pause: true
+  - log: full_context
+
+# Metrics tracked
+metrics:
+  - campaign_roas
+  - conversion_rate
+  - cost_per_acquisition
+  - pipeline_generated
+  - time_to_launch
