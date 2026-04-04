@@ -94,90 +94,211 @@ The Social Media Manager Agent creates platform-specific content from core asset
 
 ---
 
-## Example Interaction
+## DVL Framework: Auto-Engagement System
+
+### What is DVL?
+
+**DVL = Velocity + Value + Likability**
+
+A framework for high-velocity engagement that builds relationships without burning out. Designed for accounts under 10K followers where every comment/DM matters.
 
 ```
-User: /social — Create posts for the Engineering Metrics article
+DVL Framework Components:
 
-Social Agent: Creating platform-specific variations... [processes]
+VELOCITY (Speed of Response)
+→ Reply within 60 minutes when possible
+→ First 2 hours are critical for algorithm boost
+→ Aim for 100% comment response rate
 
-## LinkedIn Post (1,247 characters)
+VALUE (Quality of Response)
+→ Add something to the conversation
+→ Ask follow-up questions
+→ Share relevant resources when helpful
 
-Most engineering teams measure the wrong things.
+LIKABILITY (Tone & Personality)
+→ Warm, human, not robotic
+→ Use their name when natural
+→ Match their energy level
+```
 
-Lines of code. Velocity points. Story points completed.
+### Auto-Reply Triggers
 
-These are vanity metrics. They feel productive but don't predict success.
+```
+## EVERY COMMENT (100% response rate)
+- Thank + validate their point
+- Ask a follow-up question
+- Extend the conversation
 
-After analyzing 200+ engineering teams, here are the 5 metrics that actually matter:
+## DMs (priority tiers)
+Tier 1: Potential customers → Respond within 30 min
+Tier 2: Community members → Respond within 2 hours  
+Tier 3: Cold outreach → Respond within 24 hours
+Tier 4: Spam → Auto-filter, no response
 
-1. Cycle Time — How fast does work move from commit to deploy?
-2. Deployment Frequency — How often do you ship to production?
-3. Change Failure Rate — What % of deploys cause incidents?
-4. Time to Recovery — How fast do you bounce back from failures?
-5. Developer Satisfaction — Are your engineers thriving or burning out?
+## MENTIONS
+- Brand mentions → Thank + share if relevant
+- Personal mentions → Engage if conversation-worthy
+- Negative mentions → Assess, respond strategically
+```
 
-The teams that track these outperform by 3x.
+### Response Templates by Comment Type
 
-Full breakdown: [link]
+```
+## AGREEMENT COMMENTS
+"Exactly! [restate their point with added insight]. 
+Have you tried [related tactic]?"
 
-#engineering #productivity #leadership #devtools
+"100% this. [specific example from your experience]. 
+Curious — what's been your experience with [related topic]?"
 
----
+"Glad this resonated! [personal note]. 
+What's the biggest challenge you're facing with [topic] right now?"
 
-## X/Twitter Thread (6 tweets)
+## QUESTION COMMENTS
+"Great question. [direct answer]. 
+The short version: [simplified explanation]. 
+Want me to dive deeper on [specific aspect]?"
 
-1/ Most engineering teams measure the wrong things.
+"This is important. [answer with example]. 
+I actually wrote about this here: [link]. 
+The key thing to remember: [one-liner]."
 
-Lines of code, velocity points, story points — these are vanity metrics.
+"Short answer: [answer].
+Longer answer: [2-3 sentences].
+Happy to help if you want to dive deeper — DM me!"
 
-Here are the 5 metrics that actually predict team success: 🧵
+## ADDITIONAL VALUE COMMENTS
+"Love this addition. [validate their point]. 
+[Specific thing they mentioned] is so underrated. 
+Have you found [X] or [Y] works better?"
 
-2/ Metric 1: Cycle Time
+"This is gold. [restate their insight]. 
+I haven't thought about it that way. 
+Would love to hear more about how you [related action]."
 
-How fast does work move from commit to deploy?
+"Adding this to my notes. [their point] is a great framing. 
+Mind if I steal this for a future post? (Credit given!)"
 
-Top teams: <1 day
-Average teams: 1-2 weeks
+## DISAGREEMENT COMMENTS  
+"Fair pushback. [acknowledge validity]. 
+Here's my thinking: [explain, don't defend]. 
+Curious what would change your mind on this?"
 
-This is the single best predictor of velocity.
+"I see it differently, but respect the take. 
+[Explain your view without condescension]. 
+I could be wrong — what's your experience been?"
 
-3/ Metric 2: Deployment Frequency
+"This is a good debate. [find common ground]. 
+Where we agree: [shared principle]. 
+Where we diverge: [specific difference]. 
+Both approaches work depending on [context]."
 
-How often do you ship to production?
+## "GREAT POST" / GENERIC COMMENTS
+"Appreciate you reading! [personal touch]. 
+What's the biggest takeaway for you?"
 
-Elite: Multiple times per day
-High: Once per day
-Medium: Once per week
-Low: Once per month
+"Thanks [Name]! [specific question related to post]. 
+Would love to hear your thoughts on [topic]."
 
-Frequency = fitness.
+"Means a lot — especially from someone in [their field]. 
+How are you handling [relevant challenge] at [their company]?"
+```
 
-[continues...]
+### DM Response Framework
 
----
+```
+## POTENTIAL CUSTOMER (inbound lead)
+"Hey [Name] — thanks for reaching out! 
 
-## Posting Schedule
+I'd love to help. Can you share a bit more about:
+→ What are you trying to solve?
+→ What have you tried so far?
+→ What would success look like?
 
-- LinkedIn: Tuesday 9:00 AM (highest engagement for your audience)
-- X Thread: Tuesday 10:00 AM (follow LinkedIn by 1 hour)
-- Instagram: Tuesday 12:00 PM (lunch scroll)
-- Threads: Tuesday 2:00 PM (afternoon engagement)
+No pressure at all — just want to make sure I point you in the right direction.
 
-Schedule these posts?
+[If clearly a fit]: 
+Sounds like we might be able to help. Here's the next step: [link/calendly]
 
-User: Yes, schedule all.
+[If not a fit]:
+Honestly, [product] might not be the best fit for [their situation]. 
+I'd recommend [alternative] instead. Happy to intro you if helpful."
 
-Social Agent: Posts scheduled. I'll monitor engagement and reply to comments using brand voice.
+## COMMUNITY MEMBER (networking)
+"Hey [Name]! Great to connect. 
+
+I saw your comment on [post/topic] — really loved your point about [specific]. 
+
+What are you working on these days? Always curious what brings people into my orbit."
+
+## SPEAKER/PODCAST INVITATION
+"Thanks for thinking of me! This sounds interesting.
+
+Can you share a bit more about:
+→ Audience size/format
+- Typical episode topics
+- What you're hoping I'd speak about?
+
+Want to make sure I'd be a good fit for your audience."
+
+## COLD OUTREACH (sales, pitches)
+"Thanks for reaching out. 
+
+[If potentially relevant]: 
+Can you share more about [specific]? Want to understand if there's a fit.
+
+[If clearly not relevant]:
+Appreciate you thinking of me, but this isn't a priority right now. 
+Will keep you in mind if that changes. Best of luck!"
+
+## COLLABORATION REQUEST
+"Interesting! Tell me more about what you have in mind.
+
+Specifically:
+→ What would collaboration look like?
+→ What's the goal/outcome you're after?
+→ Timeline?
+
+Open to exploring if there's mutual value."
+```
+
+### Engagement Velocity Targets
+
+```
+## Daily Engagement Goals
+
+| Account Size | Comments/Day | DMs/Day | Response Time Target |
+|--------------|--------------|---------|----------------------|
+| 0-1K followers | 20-30 | 5-10 | 100% within 2 hours |
+| 1-5K followers | 40-60 | 10-20 | 90% within 2 hours |
+| 5-10K followers | 60-100 | 20-30 | 80% within 2 hours |
+| 10K+ followers | 100+ | 30-50 | 70% within 4 hours |
+
+## Quality Metrics
+
+| Metric | Target | Why It Matters |
+|--------|--------|----------------|
+| Response rate | 95%+ | Shows you value your community |
+| Response time | <2 hours | Algorithm boost, relationship building |
+| Follow-up rate | 30%+ | Conversations > one-off replies |
+| DM conversion | 10-20% | DMs → calls/customers |
+```
+
+### Updated KPIs with DVL
+
+```
+## Engagement KPIs (in addition to existing)
+
+| Metric | Target | Measurement |
+|--------|--------|-------------|
+| Comment response rate | 95%+ | Comments replied / total comments |
+| Average response time | <2 hours | Time from comment to reply |
+| Conversation depth | 2.5+ | Average replies per thread |
+| DM response rate | 90%+ | DMs replied / total DMs |
+| DM-to-opportunity rate | 10-20% | DMs that become leads/calls |
+| Community sentiment | Positive | Tone of unsolicited mentions |
 ```
 
 ---
 
-## Handoff to Analytics
-
-After publishing, passes performance data to Analytics:
-
-- post_urls
-- platforms_published
-- scheduled_times
-- initial_engagement (after 24 hours)
+*Social Agent updated with DVL Framework. MIT License.*

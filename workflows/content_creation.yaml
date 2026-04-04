@@ -1,10 +1,10 @@
-# Content Creation Workflow
-# This workflow orchestrates the handoffs between agents for standard content creation
+# Content Creation Workflow (Updated with G-Stack Review Gates)
+# This workflow orchestrates handoffs between agents with specialist review gates
 
 name: content_creation
-description: End-to-end content creation from brief to publication
+description: End-to-end content creation from brief to publication with repurposing
 
-tier: 2  # 1=flagship, 2=standard, 3=social snippets
+tier: 1  # 1=flagship, 2=standard, 3=social snippets
 
 steps:
   - name: strategist
@@ -17,6 +17,12 @@ steps:
     outputs:
       - brief
     approval_required: true  # Human approves topics before creation
+    review_gate:
+      type: strategic_alignment
+      criteria:
+        - Aligns with content pillars
+        - Clear target audience
+        - Measurable goal defined
 
   - name: copywriter
     agent: copywriter
@@ -28,6 +34,12 @@ steps:
       - draft
       - variants
     approval_required: false
+    review_gate:
+      type: completeness
+      criteria:
+        - All brief requirements addressed
+        - Clear structure (H1-H3)
+        - CTA included
 
   - name: seo
     agent: seo
@@ -41,6 +53,13 @@ steps:
       - meta_tags
       - schema_markup
     approval_required: false
+    review_gate:
+      type: seo_compliance
+      criteria:
+        - Keyword density 1-2%
+        - Meta tags within limits
+        - Internal links included (3-5)
+        - Schema markup valid
 
   - name: brand
     agent: brand
@@ -52,6 +71,12 @@ steps:
       - approval_status  # approved, needs_revision, flagged
       - revision_notes
     approval_required: true  # Brand must approve before publish
+    review_gate:
+      type: brand_alignment
+      criteria:
+        - Voice matches brand guidelines
+        - No off-brand claims
+        - Visual assets (if any) on-brand
 
   - name: publish
     agent: orchestrator
@@ -65,17 +90,71 @@ steps:
       - published_url
     approval_required: false
 
-  - name: social
-    agent: social
-    description: Create social posts from published content
+  # G-Stack Style: Repurposing Gate (Explicit Gear)
+  - name: repurpose
+    agent: repurposer
+    description: Transform pillar asset into 30+ variations
     trigger: publish.complete
     inputs:
       - published_url
-      - content_type
+      - pillar_type  # blog, video, podcast, etc.
+      - target_platforms
     outputs:
-      - social_posts
-      - schedule
+      - short_form_scripts  # 10 video scripts
+      - twitter_variations  # 15 tweets
+      - linkedin_posts  # 8 posts
+      - carousel_outlines  # 5 carousels
+      - email_angles  # 5 emails
+      - ad_briefs  # 3 ad concepts
     approval_required: false
+    review_gate:
+      type: asset_completeness
+      criteria:
+        - 30+ variations generated
+        - Platform-native formatting
+        - Brand voice consistent
+        - CTAs included
+
+  # G-Stack Style: Documenter Gate (Capture Daily Moments)
+  - name: document
+    agent: documenter
+    description: Capture behind-the-scenes from content creation
+    trigger: publish.complete
+    inputs:
+      - creation_process
+      - lessons_learned
+      - customer_quotes
+    outputs:
+      - story_variations  # 5-8 documented moments
+      - authenticity_score
+    approval_required: false
+    review_gate:
+      type: authenticity
+      criteria:
+        - Genuine moment captured
+        - Universal lesson extracted
+        - Confidentiality respected
+
+  - name: social
+    agent: social
+    description: Create social posts + DVL engagement
+    trigger: repurpose.complete
+    inputs:
+      - published_url
+      - short_form_scripts
+      - twitter_variations
+      - linkedin_posts
+      - carousel_outlines
+    outputs:
+      - scheduled_posts
+      - dvl_engagement_plan
+    approval_required: false
+    review_gate:
+      type: distribution_readiness
+      criteria:
+        - Optimal posting times set
+        - DVL response templates ready
+        - Engagement capacity planned
 
   - name: email
     agent: email
@@ -89,28 +168,114 @@ steps:
       - email_draft
       - subject_lines
     approval_required: true  # Human approves email before send
+    review_gate:
+      type: email_compliance
+      criteria:
+        - Subject line A/B variants
+        - Unsubscribe link included
+        - Mobile-optimized preview
+
+  # NEW: Live Shopping Integration (for product-related content)
+  - name: live_commerce
+    agent: live
+    description: Plan live shopping stream around product content
+    trigger: publish.complete
+    condition: content_type == 'product' OR content_type == 'launch'
+    inputs:
+      - published_url
+      - product_details
+      - stream_platform
+    outputs:
+      - show_script
+      - flash_sale_plan
+      - product_pins_schedule
+    approval_required: true
+    review_gate:
+      type: live_readiness
+      criteria:
+        - Products staged and tested
+        - Flash sale pricing configured
+        - Tech checklist complete
 
   - name: analytics
     agent: analytics
-    description: Track performance
+    description: Track performance across all channels
     trigger: publish.complete + 30_days
     inputs:
       - published_url
-      - channels
+      - social_posts
+      - email_performance
+      - live_stream_metrics
     outputs:
       - performance_report
       - recommendations
+      - content_score
     approval_required: false
 
-# Error handling
+# G-Stack Review Gate System
+# Each gate uses "explicit gears, not mediocre blend" philosophy
+# Gates are specialist checkpoints, not generic approvals
+
+review_gates:
+  strategic_alignment:
+    reviewer: strategist
+    purpose: Ensure content aligns with overall strategy
+    auto_pass_if: brief.approved == true
+    
+  completeness:
+    reviewer: copywriter
+    purpose: Verify all requirements met
+    auto_pass_if: draft.word_count >= brief.min_words
+    
+  seo_compliance:
+    reviewer: seo
+    purpose: Search optimization checkpoint
+    auto_pass_if: seo.score >= 80
+    
+  brand_alignment:
+    reviewer: brand
+    purpose: Brand voice and compliance
+    auto_pass_if: brand.score >= 8.5
+    
+  asset_completeness:
+    reviewer: repurposer
+    purpose: Verify 30+ variations generated
+    auto_pass_if: repurposer.asset_count >= 30
+    
+  authenticity:
+    reviewer: documenter
+    purpose: Ensure genuine moment captured
+    auto_pass_if: documenter.authenticity_score >= 8
+    
+  distribution_readiness:
+    reviewer: social
+    purpose: Ready for multi-platform distribution
+    auto_pass_if: social.posts_scheduled >= 10
+    
+  email_compliance:
+    reviewer: email
+    purpose: Email marketing compliance
+    auto_pass_if: email.can_spam_compliant == true
+    
+  live_readiness:
+    reviewer: live
+    purpose: Live stream technical readiness
+    auto_pass_if: live.tech_checklist_complete == true
+
+# Error handling with G-Stack escalation
 on_error:
   - notify: user
   - rollback: true
   - log: error_details
+  - escalate_if: error_type == 'brand_violation'
 
-# Metrics tracked
+# Metrics tracked per G-Stack philosophy
 metrics:
   - time_per_step
   - revision_cycles
   - approval_rate
   - publication_success_rate
+  - repurposing_velocity  # Time from publish to 30+ assets
+  - engagement_rate_dvl  # DVL framework engagement
+  - live_stream_roi  # Live shopping conversion
+  - authenticity_score  # Documented vs. manufactured content performance
